@@ -1,6 +1,6 @@
 # TensorFlow DNNs for Predicting DNA-Transcription Factor Binding
 
-Deep neural networks implemented in TensorFlow &amp; Python for predicting whether transcription factors will bind to given DNA sequences
+Deep neural networks implemented in TensorFlow &amp; Python for predicting whether transcription factors will bind to given DNA sequences. Empirical tests on the impact of hyperparameters on ROC AUC and speed with an Nvidia GeForce GTX 970 GPU are also included
 
 Architectures Implemented:
 --------------
