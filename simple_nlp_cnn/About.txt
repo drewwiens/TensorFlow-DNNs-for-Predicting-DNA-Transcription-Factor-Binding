@@ -1,0 +1,80 @@
+The Python 2.7 script “simple_nlp_cnn.py” implements a one-layer convolutional neural 
+network in TensorFlow. This network is of the kind sometimes seen in natural language 
+processing (NLP) for doing binary classification of sentences. I have called it “simple” 
+because it is only one convolutional layer followed by one linear layer; however, the 
+convolutional layer is actually several layers in parallel. This makes it surprisingly
+powerful for classifying DNA segments even though it is technically only one layer deep.
+
+Also included are tests I have run with this architecture. The following are my settings
+and notes from these tests:
+
+roc auc 20 moving average on validation set computed every 100 steps
+stopped when roc auc moving average changed by <0.1%
+dropout keep probability of 0.7 on conv layers
+batch size 128
+18 convolutional kernels — increased this until maxed out GTX970’s memory
+layer sizes 2 to 12 in steps of 1
+single fc linear layer at end
+global maxpooling
+no batch normalization
+auc computed on softmaxed logits
+used 15% of training set as the validation set
+
+run 1: kernels sizes 4 thru 12, 18 conv kernels. ran out of memory on dataset 5
+run 2: “ “ “ “ “, 8 conv kernels
+run 3: “ “ “ “ “, decreasing # kernels with increasing layer size
+run 4: “ “ “ “ “, increasing “ “ “ “ “ “ “
+run 5: “ “ “ “ “, 32 kernels for layer sizes 6-9 and 8 kernels for all others
+run 6: kernels sizes 5 thru 10, 24 conv kernels.
+run 7: kernels sizes 3 thru 13 in steps of 2, 64 conv kernels, roc auc 2-moving average, calc roc auc in mini-batches of 1024 because lack of memory, checking validation auc every 1000 steps instead of 100 to reduce gpu->cpu mem transfers, stopped when roc auc moving average changed by <0.5% instead of <0.1% to stop sooner (less overfitting & also just faster).
+run 8: kernels sizes 3 thru 13 in steps of 1, 96 conv outputs
+run 9: kernels sizes 3 thru 15 in steps of 3, 96 conv outputs
+run 10: kernels sizes 3 thru 18 in steps of 3, 96 conv outputs
+run 11: kernels sizes 3 thru 21 in steps of 3, 96 conv outputs
+run 12: kernels sizes 3 thru 25 in steps of 3, 96 conv outputs
+run 13: kernels sizes 3 thru 101/2 in steps of 3, 96 conv outputs, 0.5 dropout (seemed to be overfitting for 0.7 keep_prob), no mov avg on auc - just quit as soon as validation roc dips below previous
+run 14: kernels sizes 3 thru 101/3, 0.3 dropout keep rate; rest same as prev
+run 15: 0.9 dropout keep rate; rest same as prev
+run 16: no dropout; rest same as prev
+run 17: kernels sizes 3 thru 101/4; rest same as prev
+run 18: kernels sizes 3 thru 101/6; rest same as prev
+run 19: kernels sizes 3 thru 101/2; rest same as prev
+run 20: kernels sizes 1 thru 101/6; rest same as prev
+run 21: kernels sizes 3 thru 101/6 in steps of 4; rest same as prev
+run 22: “ steps of 5; rest same as prev
+run 23: “ steps of 6; rest same as prev
+run 24: “ thru 18 (to keep same # kernels) in steps of 7; rest same as prev
+run 25: kernels sizes 3 thru 101/5 in steps of 7; rest same as prev
+run 26: “ thru 101/3; rest same as prev
+run 27: “ thru 101/2; rest same as prev
+run 28: “ thru 101/1; rest same as prev
+run 29: “ thru 18 in steps of 7, 192 conv outputs; rest same as prev
+run 30: 384 conv outputs; rest same as prev
+run 31: 768 conv outputs; rest same as prev
+run 32: 768 conv outputs, kernel sizes in range(3,20,4); rest same as prev (80 per 1000 steps)
+run 33: 192 conv outputs, kernel sizes in range(3,32,3); rest same as prev (__s per 1000 steps)
+run 34: kernel sizes in range(3,101/6,2), 96 conv outputs; else same as prev
+run 35: range(3,101/6,1); else same as prev
+run 36: range(3,101/6,8); else same as prev
+run 37: range(3,101/6,9); else same as prev
+run 38: range(3,101,1); else same as prev
+
+speed benchmarks (gtx970):
+32 kernel size -> 500 steps takes 6.5s
+64 -> 8.5s; 700 steps takes 10.9s
+96 -> 10s
+128 -> 12s
+256 -> 18.5s
+——
+128 minibatch size -> 1.4s to compute auc
+32 -> 4s
+1024 -> 0.6s
+3000 -> 0.5s
+
+some things learned:
+1. It seems important to stop training as soon as the validation auc plateus. If you keep training 1+ epochs after auc plateu, overfitting begins and auc on the test set starts to decrease slowly.
+2. this architecture does not benefit from dropout
+3. kernel sizes below 3 don’t help. recommend start at 3
+4. auc increases with conv2d num outputs regardless of other parameters (...but training time increases linearly with num outputs)
+5. most important parameters in this architecture are A) max kernel size B) conv2d num outputs (feature maps) and C) window step size
+6. 

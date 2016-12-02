@@ -1,0 +1,59 @@
+Implements CNN architectures from Deep GDashboard paper (https://arxiv.org/abs/1608.03644)
+
+roc auc 20 moving average on validation set computed every 100 steps
+stopped when roc auc moving average changed by <0.1%
+dropout keep probability of 0.7 on conv layers
+batch size 128
+64 convolutional outputs (5.8s per 1000 steps)
+layer 1 size of 9, layer 2 size of 5
+local maxpool of 2 on layer 1, global maxpooling on layer 2
+no batch normalization
+computed auc on softmaxed logits
+used 15% of training set as the validation set
+usually seemed to finish training in <50 epochs
+
+run 1: small cnn (2 conv layers) before fixing load_ENCODE_k562_dataset(), batch_norm off
+run 2: small cnn (2 conv layers) after fixing load_ENCODE_k562_dataset(), batch_norm off + test with batch norm on first 5 datasets
+run 3: no dropout on conv layers, all else same
+run 4: re-run of #3 ^ with updated training code from simple_nlp_cnn.py.
+run 5: 96 conv outputs; all else same
+run 6: 192 conv outputs; all else same (11.5s per 1000 steps)
+run 7: 384 conv outputs; all else same (24s per 1000 steps)
+run 8: 768 conv outputs; all else same (63s per 1000 steps)
+run 9: medium cnn (3 conv layers), 64 conv outputs; else same as prev (6s per 1000 steps)
+run 10: med cnn, 192 conv outputs; else same (15s per 1000 steps)
+run 11: med cnn, 384 conv outputs; else same (32s per 1000 steps)
+run 12: large cnn (4 conv layers), 64 conv outputs; else same (7s per 1000 steps)
+run 13: 192 outputs; else same (17s per 1000 steps)
+run 14: 384 outputs; else same (36s per 1000 steps)
+run 15: run 4 with new dropout scheme: increase keep rate when validation error rate stabilizes until keep rate reaches 1.0, then stop when validation error rate stabilizes; i think 64 conv outputs was used
+run 16: validation every 500 steps (was 1000) and changed auc percent change criteria to 1% (was 0.5%), keep_prob := {0.5,0.8,1.0}; else same as prev
+run 17: keep_prob := {0.8,0.95,1.0}; else same
+run 18: keep_prob := {0.5,0.8,0.95}: increase keep_prob at 3k and 10k iters (not epochs); all else same as prev
+run 19: keep_prob := {0.5,0.8,0.9}; else same
+run 20: keep_prob := {0.5,0.70,0.77}; else same
+run 21: keep_prob annealing 0.5..0.75 (proportional); else same
+run 22: keep_prob annealing 0.5..0.75 (sqrt); else same
+run 23: sqrt annealing type 2; else same
+run 24: sqrt annealing type 3; else same
+run 25: stop training at 15k iters; else same
+run 26: sqrt type 4; else same
+run 27: sqrt type 5; else same
+run 28: all same
+run 29: linear type 1; rest same
+run 30: repeat of run 26 (sqrt type 4)
+run 31: added motif discovery; else same
+run 32: stop at iter 7000; else same
+run 33: original dataset list; else same
+run 34: no dropout; else same
+run 35: tiny cnn; else same
+run 36: med cnn; else same
+run 37: large cnn; else same
+run 38: small cnn, 384 conv outputs (24s per 1000 steps); else same (basically a repeat of #7)
+run 39: tiny cnn for more datasets, 64 conv outputs (same as #35); else same
+
+learned:
+1. batch normalization hurts this architecture - recommend not using batch norm
+2. dropout hurts this architecture - recommend not using dropout
+3. 2 conv layers (small) appears to be best for this architecture/dataset
+4. stopping at 7000 iters is generally good
