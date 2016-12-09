@@ -1,0 +1,11 @@
+run 1: same as medium cnn-rnn in paper, no dropout
+run 2: training for 15k steps
+run 3: switched to tf.nn.bidirectional_rnn
+run 4: added prc auc, training for 9k steps
+run 5: decreased minibatch size to 16, training for 50k steps
+	MINIBATCH SIZE HAD NO EFFECT ON LSTM SPEED, WTF??
+run 6: increased minibatch size to 2048, training for 600 steps, 133s per dataset = 4 hours :)
+run 7: same; motif occupancy and discovery tests (max 8 hrs runtime on 108 datasets); datasets 0-88 **** this run is in Results.csv ****
+run 8: datasets 89-98 **** this run is in Results.csv ****
+run 9: datasets 99-105 **** this run is in Results.csv ****
+run 10: datasets 106-end, 256 batch size & 4800 training steps **** this run is in Results.csv ****

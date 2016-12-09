@@ -1,0 +1,6 @@
+run 1: 1 layer lstm w/ 32 outputs, no dropout
+run 2: dropout w/ keep_prob=0.7
+run 3: keep_prob=0.5
+run 4: run on datasets 0-4; increased minibatch size to 2048, trained in 600 steps; took 110s per dataset to train **** this run is in Results.csv ****
+run 5: run on datasets 4-60 **** this run is in Results.csv ****
+run 6: 61-end **** this run is in Results.csv ****

@@ -1,0 +1,3 @@
+dataset_num,motif_discovery=0|motif_occupancy=1,dataset_name,roc_auc,prc_auc,time(sec)
+106,0,wgEncodeAwgTfbsSydhK562Znf274m01UcdUniPk,0.722987754179,0.691595887296,561.386233091
+107,0,wgEncodeAwgTfbsSydhK562Znf274UcdUniPk,0.832832832833,0.875508687597,557.625210047
