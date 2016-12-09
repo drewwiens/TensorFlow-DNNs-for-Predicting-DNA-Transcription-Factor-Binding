@@ -1,8 +1,0 @@
-dataset_num,dataset_type(0==motif occupancy/1==motif discovery),dataset_name,roc_auc
-0,0,wgEncodeAwgTfbsBroadK562CtcfUniPk,0.785445590604
-0,1,wgEncodeAwgTfbsBroadK562CtcfUniPk,0.936993430837
-1,0,wgEncodeAwgTfbsHaibK562Atf3V0416101UniPk,0.833950058539
-1,1,wgEncodeAwgTfbsHaibK562Atf3V0416101UniPk,0.936831448562
-2,0,wgEncodeAwgTfbsHaibK562Cebpbsc150V0422111UniPk,0.77861994575
-2,1,wgEncodeAwgTfbsHaibK562Cebpbsc150V0422111UniPk,0.949076429804
-3,0,wgEncodeAwgTfbsHaibK562CtcfcPcr1xUniPk,0.824729203325

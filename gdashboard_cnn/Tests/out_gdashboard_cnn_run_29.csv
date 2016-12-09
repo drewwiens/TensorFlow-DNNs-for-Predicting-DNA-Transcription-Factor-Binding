@@ -1,6 +1,0 @@
-dataset_num,dataset_name,roc_auc
-0,wgEncodeAwgTfbsBroadK562CtcfUniPk,0.790836368389
-1,wgEncodeAwgTfbsHaibK562Atf3V0416101UniPk,0.823054637672
-2,wgEncodeAwgTfbsHaibK562Cebpbsc150V0422111UniPk,0.789884576601
-3,wgEncodeAwgTfbsHaibK562CtcfcPcr1xUniPk,0.831702688916
-4,wgEncodeAwgTfbsHaibK562E2f6V0416102UniPk,0.810811197281
